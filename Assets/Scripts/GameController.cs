@@ -10,6 +10,8 @@ public class GameController : MonoBehaviour {
     public GameObject m_PlayerGameObject;
     public GameObject m_GameoverPanel;
     public Text m_ScoreText;
+
+    int ScoreToLvl;
    
 
     [SerializeField]
@@ -25,6 +27,7 @@ public class GameController : MonoBehaviour {
 
         Time.timeScale = 1;
         m_GameoverPanel.SetActive(false);
+        ScoreToLvl = 0;
     }
 	
     public Vector3 PlayerPosition
@@ -51,5 +54,11 @@ public class GameController : MonoBehaviour {
     {
         m_Score += score;
         m_ScoreText.text = _ScoreLabel + m_Score.ToString();
+        ScoreToLvl = m_Score;
+        if (ScoreToLvl >= 500)
+        {
+            ScoreToLvl = ScoreToLvl - 500;
+            m_PlayerGameObject.GetComponent<LevelController>().LevelUp(1);
+        }
     }
 }

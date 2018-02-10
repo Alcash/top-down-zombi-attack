@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(LevelController))]
 public class PlayerController : MonoBehaviour , IPersonController
@@ -14,6 +16,9 @@ public class PlayerController : MonoBehaviour , IPersonController
 
     public GameObject m_BulletPrefab;
     public Transform m_SpawnPoint;
+    ParticleSystem m_ParticleSystem;
+
+    public GameObject m_LvlUpText;
 
     float secondReload;
     Health m_health;
@@ -34,7 +39,8 @@ public class PlayerController : MonoBehaviour , IPersonController
         m_Rigidbody = GetComponent<Rigidbody>();
         m_MainCamera = Camera.main;
         m_levelController = GetComponent<LevelController>();
-
+        m_ParticleSystem = GetComponent<ParticleSystem>();
+        m_ParticleSystem.Stop();
         secondReload = 1 / m_FireRate;
         Attack = true;
         curentDamage = m_levelController.DamageOnStart + m_levelController.Level * m_levelController.DamagePerLvl;
@@ -45,7 +51,17 @@ public class PlayerController : MonoBehaviour , IPersonController
     public void LevelUp()
     {
         curentDamage = m_levelController.DamageOnStart + m_levelController.Level * m_levelController.DamagePerLvl;
+        m_ParticleSystem.Play();
+        m_LvlUpText.SetActive(true);
+        Invoke("StopParticle", 3);
     }
+
+    void StopParticle()
+    {
+        m_LvlUpText.SetActive(false);
+        m_ParticleSystem.Stop();
+    }
+
 
     // Update is called once per frame
     void Update () {

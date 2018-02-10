@@ -1053,8 +1053,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Level: 0
-  m_DamageOnStart: 5
-  m_DamagePerLvl: 1
+  m_DamageOnStart: 1
+  m_DamagePerLvl: 0
   m_HealthOnStart: 10
   m_HealthPerLvl: 1
   m_MovementOnStart: 3

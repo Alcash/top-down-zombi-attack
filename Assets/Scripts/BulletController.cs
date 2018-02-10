@@ -10,7 +10,7 @@ public class BulletController : MonoBehaviour {
 	void Start () {
         
         Destroy(gameObject, m_LifeTime);
-        Invoke("EnableCollider", 0.01f);
+        Invoke("EnableCollider", 0.1f);
 	}
 	
     public void SetDamageValue(int _damage)

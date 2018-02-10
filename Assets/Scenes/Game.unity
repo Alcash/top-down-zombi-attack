@@ -421,7 +421,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &570328449
 RectTransform:
   m_ObjectHideFlags: 0
@@ -582,7 +582,7 @@ Transform:
   m_GameObject: {fileID: 591092885}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -1.22, z: 0}
-  m_LocalScale: {x: 2.302256, y: 2.3022559, z: 2.3022559}
+  m_LocalScale: {x: 3.4905844, y: 3.490582, z: 3.490582}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
@@ -882,12 +882,12 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 2048, y: 1536}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 0.5
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
@@ -982,9 +982,9 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 60
-  orthographic: 0
-  orthographic size: 5
+  field of view: 91.4
+  orthographic: 1
+  orthographic size: 10.23
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1005,13 +1005,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1303253387}
-  m_LocalRotation: {x: 0.34402856, y: 0.648708, z: -0.5363827, w: 0.41607207}
-  m_LocalPosition: {x: -0.9277225, y: 12.742436, z: 0.98010176}
+  m_LocalRotation: {x: 0.35977757, y: 0.62759626, z: -0.56093866, w: 0.4025307}
+  m_LocalPosition: {x: -1.1, y: 13.6, z: 0.98010176}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 83.58, y: 114.649, z: 0}
 --- !u!1 &1640392519
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,25 +1125,25 @@ Prefab:
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
-    - target: {fileID: 114318411243067658, guid: 9bf0139ba494a1942a54fd7ee7e117aa,
+    - target: {fileID: 224923510676155016, guid: 9bf0139ba494a1942a54fd7ee7e117aa,
         type: 2}
-      propertyPath: m_FireRate
-      value: 5
+      propertyPath: m_LocalPosition.x
+      value: 44.24405
       objectReference: {fileID: 0}
-    - target: {fileID: 54669777107096268, guid: 9bf0139ba494a1942a54fd7ee7e117aa,
+    - target: {fileID: 224923510676155016, guid: 9bf0139ba494a1942a54fd7ee7e117aa,
         type: 2}
-      propertyPath: m_IsKinematic
-      value: 1
+      propertyPath: m_LocalPosition.y
+      value: 121.74817
       objectReference: {fileID: 0}
-    - target: {fileID: 114888091386414684, guid: 9bf0139ba494a1942a54fd7ee7e117aa,
+    - target: {fileID: 224863589772071636, guid: 9bf0139ba494a1942a54fd7ee7e117aa,
         type: 2}
-      propertyPath: m_DamageOnStart
-      value: 10
+      propertyPath: m_LocalPosition.x
+      value: -906.3792
       objectReference: {fileID: 0}
-    - target: {fileID: 136787421000464478, guid: 9bf0139ba494a1942a54fd7ee7e117aa,
+    - target: {fileID: 224863589772071636, guid: 9bf0139ba494a1942a54fd7ee7e117aa,
         type: 2}
-      propertyPath: m_IsTrigger
-      value: 1
+      propertyPath: m_LocalPosition.y
+      value: 767.79
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9bf0139ba494a1942a54fd7ee7e117aa, type: 2}
