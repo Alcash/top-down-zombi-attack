@@ -8,26 +8,27 @@ public class GameController : MonoBehaviour {
 
     public static GameController singleton;
     public GameObject m_PlayerGameObject;
-    public GameObject m_GameoverPanel;
-    public Text m_ScoreText;
 
-    int ScoreToLvl;
-   
+    [HideInInspector]
+    public LevelController playerLevel;
 
-    [SerializeField]
-    string _ScoreLabel = "Очки ";
+    public GameObject m_GameoverPanel;  
     
-
     public int m_Score = 0;
+
+    public  GameUIController gameUIController;
+
+
+
 	// Use this for initialization
 	void Start () {
 
         if(singleton == null )
             singleton = this;
-
+        playerLevel = m_PlayerGameObject.GetComponent<LevelController>();
         Time.timeScale = 1;
         m_GameoverPanel.SetActive(false);
-        ScoreToLvl = 0;
+       
     }
 	
     public Vector3 PlayerPosition
@@ -38,10 +39,7 @@ public class GameController : MonoBehaviour {
         }
     }
 
-	// Update is called once per frame
-	void Update () {
-		
-	}
+	
 
     public void Gameover()
     {
@@ -53,12 +51,7 @@ public class GameController : MonoBehaviour {
     public void AddScore(int score)
     {
         m_Score += score;
-        m_ScoreText.text = _ScoreLabel + m_Score.ToString();
-        ScoreToLvl = m_Score;
-        if (ScoreToLvl >= 500)
-        {
-            ScoreToLvl = ScoreToLvl - 500;
-            m_PlayerGameObject.GetComponent<LevelController>().LevelUp(1);
-        }
+        playerLevel.AddScore(score);
+        gameUIController.UpdateScore();
     }
 }

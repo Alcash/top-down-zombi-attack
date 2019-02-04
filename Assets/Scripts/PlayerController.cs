@@ -39,6 +39,8 @@ public class PlayerController : MonoBehaviour , IPersonController
         m_Rigidbody = GetComponent<Rigidbody>();
         m_MainCamera = Camera.main;
         m_levelController = GetComponent<LevelController>();
+
+        m_levelController.Person = this;
         m_ParticleSystem = GetComponent<ParticleSystem>();
         m_ParticleSystem.Stop();
         secondReload = 1 / m_FireRate;
@@ -48,13 +50,15 @@ public class PlayerController : MonoBehaviour , IPersonController
         
     }
 
-    public void LevelUp()
+    public void LevelUp(int value)
     {
         curentDamage = m_levelController.DamageOnStart + m_levelController.Level * m_levelController.DamagePerLvl;
         m_ParticleSystem.Play();
         m_LvlUpText.SetActive(true);
         Invoke("StopParticle", 3);
     }
+
+    
 
     void StopParticle()
     {

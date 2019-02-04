@@ -27,16 +27,22 @@ public class EnemyController : MonoBehaviour, IPersonController
 
     // Use this for initialization
     void Awake () {
-        Debug.Log("Awake " + name);
+       // Debug.Log("Awake " + name);
         m_Heath = GetComponent<Health>();
         m_Rigidbody = GetComponent<Rigidbody>();
-        Debug.Log("m_Rigidbody " + m_Rigidbody.name);
+        //Debug.Log("m_Rigidbody " + m_Rigidbody.name);
         _levelController = GetComponent<LevelController>();
         m_MovementSpeed =  _levelController.MovementOnStart + _levelController.Level * _levelController.MovementPerLvl;
+        _levelController.Person = this;
 
     }
 	
-    public void LevelUp()
+    void AddScore(int value)
+    {
+
+    }
+
+    public void LevelUp(int value)
     {
         m_MovementSpeed = _levelController.MovementOnStart + _levelController.Level * _levelController.MovementPerLvl;
 
@@ -45,8 +51,8 @@ public class EnemyController : MonoBehaviour, IPersonController
     public void SetTarget(Vector3 _target)
     {
         var dir = _target - transform.position;
-        Debug.DrawLine(transform.position, _target);
-        Debug.Log("transform.position" + transform.position);
+        //Debug.DrawLine(transform.position, _target);
+        //Debug.Log("transform.position" + transform.position);
         m_Rigidbody.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
         target = true;
         Move();

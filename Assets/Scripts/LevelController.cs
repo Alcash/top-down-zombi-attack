@@ -7,7 +7,8 @@ public class LevelController : MonoBehaviour {
     [Header("Main")]
     [SerializeField]
     int m_Level = 0;
-
+    int ScoreToLvl = 100;
+    int score;
     [Header("Gun")]
     [SerializeField]
     int m_DamageOnStart = 5;
@@ -26,6 +27,8 @@ public class LevelController : MonoBehaviour {
     int m_MovementOnStart = 2;
     [SerializeField]
     int m_MovementPerLvl = 1;
+
+    public IPersonController Person;
 
     public int DamageOnStart
     {
@@ -117,27 +120,24 @@ public class LevelController : MonoBehaviour {
             m_MovementPerLvl = value;
         }
     }
-
-    public void LevelUp()
-    {
-
-    }
+    
 
     public void LevelUp(int _levelIncrease)
     {
         Level += _levelIncrease;
-        SendMessage("LevelUp");
+        Person.LevelUp(1);
+    }
+
+    public void AddScore(int value)
+    {
+        score += value;
+       
+        if (score >= ScoreToLvl)
+        {
+            score = score - ScoreToLvl;
+            LevelUp(1);
+        }
     }
 
     
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }
