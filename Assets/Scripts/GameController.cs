@@ -28,7 +28,9 @@ public class GameController : MonoBehaviour {
         playerLevel = m_PlayerGameObject.GetComponent<LevelController>();
         Time.timeScale = 1;
         m_GameoverPanel.SetActive(false);
-       
+
+
+        StartCoroutine( LocalizationManager.instance.LoadLocalizedText());
     }
 	
     public Vector3 PlayerPosition

@@ -7,25 +7,19 @@ using UnityEngine.UI;
 public class GameUIController : MonoBehaviour {
 
     public Text m_ScoreText;
-    public Text m_PlayerLevelText;
-    [SerializeField]
-    string _ScoreLabel = "Очки ";
-    [SerializeField]
-    string _LevelLabel = "Уровень ";
+    public Text m_PlayerLevelText;    
+    string _ScoreLabel = "Game.UI.ScoreLabel";    
+    string _LevelLabel = "Game.UI.LevelLabel";
 
     // Use this for initialization
     void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+        UpdateScore();
 
+    }	
+	
     internal void UpdateScore()
     {
-        m_ScoreText.text = _ScoreLabel + GameController.singleton.m_Score;
-        m_PlayerLevelText.text = _LevelLabel + GameController.singleton.playerLevel.Level;
+        m_ScoreText.text = LocalizationManager.instance.GetLocalizedValue(_ScoreLabel) + GameController.singleton.m_Score;
+        m_PlayerLevelText.text = LocalizationManager.instance.GetLocalizedValue(_LevelLabel) + GameController.singleton.playerLevel.Level;
     }
 }

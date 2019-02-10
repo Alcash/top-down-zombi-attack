@@ -14,19 +14,12 @@ public class PanelGameoverController : MonoBehaviour {
     public Button m_ExitButton;
     public Button m_RestartButton;
 
-    [SerializeField]
-    string _GameoverLabel = "Ты умер, ахаха! ";
-    [SerializeField]
-    string _ResultLabel = "ты смог набрать очков: ";
-
-    [SerializeField]
-    string _BestResultLabel = "Лучший результат: ";
-
-    [SerializeField]
-    string _NewBestResultLabel = "Ты стал лучше чем прежде, твой результат: ";
-
-    [SerializeField]
-    string _PreBestResultLabel = "Предыдущий результат: ";
+   
+    string _GameoverLabel = "Game.UI.GameoverLabel";    
+    string _ResultLabel = "Game.UI.ResultLabel";    
+    string _BestResultLabel = "Game.UI.BestResultLabel";    
+    string _NewBestResultLabel = "Game.UI.NewBestResultLabel";    
+    string _PreBestResultLabel = "Game.UI.PreBestResultLabel";
     // Use this for initialization
     void Start () {
         m_RestartButton.onClick.AddListener(Restart);
@@ -37,19 +30,19 @@ public class PanelGameoverController : MonoBehaviour {
 
     private void OnEnable()
     {
-        m_GameoverText.text = _GameoverLabel;
+        m_GameoverText.text = LocalizationManager.instance.GetLocalizedValue(_GameoverLabel);
 
         var _BestResult = PlayerPrefs.GetInt("MaxScore", 0);
         if (_BestResult >= GameController.singleton.m_Score)
         {
-            m_ResultText.text = _ResultLabel + GameController.singleton.m_Score.ToString();
-            m_ResultText.text += "\n" + _BestResultLabel + _BestResult;
+            m_ResultText.text = LocalizationManager.instance.GetLocalizedValue(_ResultLabel) + GameController.singleton.m_Score.ToString();
+            m_ResultText.text += "\n" + LocalizationManager.instance.GetLocalizedValue(_BestResultLabel) + _BestResult;
         }
         else
         {
             PlayerPrefs.SetInt("MaxScore", GameController.singleton.m_Score);
-            m_ResultText.text = _NewBestResultLabel + GameController.singleton.m_Score.ToString();
-            m_ResultText.text += "\n" + _PreBestResultLabel + _BestResult;
+            m_ResultText.text = LocalizationManager.instance.GetLocalizedValue(_NewBestResultLabel) + GameController.singleton.m_Score.ToString();
+            m_ResultText.text += "\n" + LocalizationManager.instance.GetLocalizedValue(_PreBestResultLabel) + _BestResult;
         }
         
     }

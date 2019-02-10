@@ -1,0 +1,12 @@
+﻿{"items":[
+{"key":"Game.UI.GameoverLabel", "value":"Ты умер, ахаха!"},
+{"key":"Game.UI.BestResultLabel", "value":"Лучший результат: "},
+{"key":"Game.UI.NewBestResultLabel", "value":"Ты стал лучше чем прежде, твой результат: "},
+{"key":"Game.UI.PreBestResultLabel", "value":"Предыдущий результат: "},
+{"key":"Game.Player.UI.LevelUpText", "value":"Ты получил уровень."},
+{"key":"Game.UI.GameoverPanel.Restart", "value":"Заново"},
+{"key":"Game.UI.GameoverPanel.Exit", "value":"Выйти"},
+{"key":"Game.UI.ResultLabel", "value":"ты смог набрать очков:"},
+{"key":"Game.UI.ScoreLabel", "value":"Очки "},
+{"key":"Game.UI.LevelLabel", "value":"Уровень "}
+]}
