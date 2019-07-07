@@ -8,10 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyController : MonoBehaviour, IPersonController
 {
-
-    public int m_Score = 1;
-    public float m_ChanceSpawn = 0.3f;
-
+    public int m_Score = 1;   
     Rigidbody m_Rigidbody;
     bool target;
     Health m_Heath;
