@@ -16,7 +16,8 @@ public class PlayerController : MonoBehaviour , IPersonController
 
     public GameObject m_BulletPrefab;
     public Transform m_SpawnPoint;
-    ParticleSystem m_ParticleSystem;
+    [SerializeField]
+    private ParticleSystem m_ParticleSystem;
 
     public GameObject m_LvlUpText;
 
@@ -33,38 +34,35 @@ public class PlayerController : MonoBehaviour , IPersonController
     Vector3 Mouse_Touch;
     bool Attack;
 
-
     void Start () {
         m_health = GetComponent<Health>();
         m_Rigidbody = GetComponent<Rigidbody>();
         m_MainCamera = Camera.main;
         m_levelController = GetComponent<LevelController>();
 
-        m_levelController.Person = this;
-        m_ParticleSystem = GetComponent<ParticleSystem>();
-        m_ParticleSystem.Stop();
+        m_levelController.OnLevelChange += LevelUp;       
+        m_ParticleSystem.gameObject.SetActive(false);
         secondReload = 1 / m_FireRate;
         Attack = true;
-        curentDamage = m_levelController.DamageOnStart + m_levelController.Level * m_levelController.DamagePerLvl;
+        curentDamage = m_levelController.DamageAtLevel;
         StartCoroutine( RepeatShoot());
         
     }
 
     public void LevelUp(int value)
     {
-        curentDamage = m_levelController.DamageOnStart + m_levelController.Level * m_levelController.DamagePerLvl;
-        m_ParticleSystem.Play();
-        m_LvlUpText.SetActive(true);
-        Invoke("StopParticle", 3);
+        curentDamage = m_levelController.DamageAtLevel; 
+        StartCoroutine(LevelUpParticle());
     }
 
-    
-
-    void StopParticle()
+    private IEnumerator LevelUpParticle()
     {
+        m_ParticleSystem.gameObject.SetActive(true);
+        m_LvlUpText.SetActive(true);
+        yield return new WaitForSeconds(3);
         m_LvlUpText.SetActive(false);
-        m_ParticleSystem.Stop();
-    }
+        m_ParticleSystem.gameObject.SetActive(true);
+    }   
 
 
     // Update is called once per frame
@@ -72,8 +70,7 @@ public class PlayerController : MonoBehaviour , IPersonController
 
         if (Input.GetMouseButtonDown(0))
         {
-            Mouse_Touch = Input.mousePosition;
-            
+            Mouse_Touch = Input.mousePosition;            
         }
 
     }

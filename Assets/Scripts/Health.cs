@@ -41,16 +41,15 @@ public class Health : MonoBehaviour {
         m_Person = GetComponent<IPersonController>();
        _levelController = GetComponent<LevelController>();
         if(MaxHealth == 0)
-            MaxHealth = _levelController.HealthOnStart + _levelController.Level * _levelController.HealthPerLvl;
+            MaxHealth = _levelController.HealthAtLevel;
         if (_CurrentHealth == 0)
             _CurrentHealth = MaxHealth;
 
     }
 
     public void LevelUp()
-    {
-        
-        MaxHealth = _levelController.HealthOnStart + _levelController.Level * _levelController.HealthPerLvl;
+    {       
+        MaxHealth =  _levelController.HealthAtLevel;
         _CurrentHealth = MaxHealth;
     }
 }

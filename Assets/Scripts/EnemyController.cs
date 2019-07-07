@@ -32,8 +32,8 @@ public class EnemyController : MonoBehaviour, IPersonController
         m_Rigidbody = GetComponent<Rigidbody>();
         //Debug.Log("m_Rigidbody " + m_Rigidbody.name);
         _levelController = GetComponent<LevelController>();
-        m_MovementSpeed =  _levelController.MovementOnStart + _levelController.Level * _levelController.MovementPerLvl;
-        _levelController.Person = this;
+        m_MovementSpeed =  _levelController.MovementAtLevel;
+        _levelController.OnLevelChange += LevelUp;
 
     }
 	
@@ -44,7 +44,7 @@ public class EnemyController : MonoBehaviour, IPersonController
 
     public void LevelUp(int value)
     {
-        m_MovementSpeed = _levelController.MovementOnStart + _levelController.Level * _levelController.MovementPerLvl;
+        m_MovementSpeed = _levelController.MovementAtLevel;
 
     }
 
@@ -68,7 +68,7 @@ public class EnemyController : MonoBehaviour, IPersonController
     {
         if (other.tag == "Player")
         {
-            other.GetComponent<Health>().Damage(_levelController.DamageOnStart);
+            other.GetComponent<Health>().Damage(_levelController.DamageAtLevel);
             Destroy(gameObject);
         }
     }

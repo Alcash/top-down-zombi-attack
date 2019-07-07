@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class GameController : MonoBehaviour {
 
+    public static UnityAction<int> OnChangeScore = null;
     public static GameController singleton;
     public GameObject m_PlayerGameObject;
 
@@ -28,8 +30,6 @@ public class GameController : MonoBehaviour {
         playerLevel = m_PlayerGameObject.GetComponent<LevelController>();
         Time.timeScale = 1;
         m_GameoverPanel.SetActive(false);
-
-
         StartCoroutine( LocalizationManager.instance.LoadLocalizedText());
     }
 	
@@ -53,7 +53,9 @@ public class GameController : MonoBehaviour {
     public void AddScore(int score)
     {
         m_Score += score;
-        playerLevel.AddScore(score);
-        gameUIController.UpdateScore();
+        if (OnChangeScore != null)
+        {
+            OnChangeScore(score);
+        }   
     }
 }
