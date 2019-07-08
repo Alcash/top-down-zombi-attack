@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec0856c37da62914ba37065ca286f953, type: 3}
   m_Name: Minion 2
   m_EditorClassIdentifier: 
-  spawnChance: 1
-  spawnEnemy: {fileID: 0}
+  spawnChance: 0.2
+  spawnEnemy: {fileID: 1180712937767626, guid: e5e8bab813537c54f8c3d27d8fcfb189, type: 3}

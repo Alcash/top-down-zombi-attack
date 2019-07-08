@@ -9,7 +9,7 @@ public class Health : MonoBehaviour {
 
     [SerializeField]
     int _CurrentHealth;
-    IPersonController m_Person;
+    IPersonController person;
 
     LevelController _levelController;
     public int MaxHealth
@@ -25,20 +25,20 @@ public class Health : MonoBehaviour {
         }
     }
 
-    internal void Damage(int damage)
+    internal void TakeDamage(int damage)
     {
         _CurrentHealth -= damage;
         if (_CurrentHealth < 0)
         {
             _CurrentHealth = 0;
-            m_Person.Death();
+            person.Death();
         }
     }
 
     // Use this for initialization
     void Awake()
     {
-        m_Person = GetComponent<IPersonController>();
+        person = GetComponent<IPersonController>();
        _levelController = GetComponent<LevelController>();
         if(MaxHealth == 0)
             MaxHealth = _levelController.HealthAtLevel;

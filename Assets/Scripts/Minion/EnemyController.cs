@@ -9,11 +9,11 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour, IPersonController
 {
     public int m_Score = 1;   
-    Rigidbody m_Rigidbody;
-    bool target;
-    Health m_Heath;
-    LevelController _levelController;
-    int m_MovementSpeed;
+    private Rigidbody rigidbodyThis;
+    private bool target;
+    private Health m_Heath;
+    private LevelController levelController;
+    private int movementSpeed;
     
 
     public void Death()
@@ -26,31 +26,23 @@ public class EnemyController : MonoBehaviour, IPersonController
     void Awake () {
        // Debug.Log("Awake " + name);
         m_Heath = GetComponent<Health>();
-        m_Rigidbody = GetComponent<Rigidbody>();
+        rigidbodyThis = GetComponent<Rigidbody>();
         //Debug.Log("m_Rigidbody " + m_Rigidbody.name);
-        _levelController = GetComponent<LevelController>();
-        m_MovementSpeed =  _levelController.MovementAtLevel;
-        _levelController.OnLevelChange += LevelUp;
-
+        levelController = GetComponent<LevelController>();
+        movementSpeed =  levelController.MovementAtLevel;    
     }
 	
     void AddScore(int value)
     {
 
-    }
-
-    public void LevelUp(int value)
-    {
-        m_MovementSpeed = _levelController.MovementAtLevel;
-
-    }
+    }   
 
     public void SetTarget(Vector3 _target)
     {
         var dir = _target - transform.position;
         //Debug.DrawLine(transform.position, _target);
         //Debug.Log("transform.position" + transform.position);
-        m_Rigidbody.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
+        rigidbodyThis.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
         target = true;
         Move();
     }
@@ -58,16 +50,25 @@ public class EnemyController : MonoBehaviour, IPersonController
     void Move()
     {
         if(target)
-            m_Rigidbody.velocity = m_Rigidbody.transform.forward * m_MovementSpeed;
+            rigidbodyThis.velocity = rigidbodyThis.transform.forward * movementSpeed;
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Player")
         {
-            other.GetComponent<Health>().Damage(_levelController.DamageAtLevel);
+            CombatSystem.CalculateDamage(other.GetComponent<IPersonController>(), this);            
             Destroy(gameObject);
         }
     }
 
+    public Health GetHealth()
+    {
+        return m_Heath;
+    }
+
+    public LevelController GetLevel()
+    {
+        return levelController;
+    }
 }

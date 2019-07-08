@@ -4,24 +4,26 @@ using UnityEngine;
 
 public class BulletController : MonoBehaviour {
 
-    public float m_LifeTime;
-    int damage;
-	// Use this for initialization
-	void Start () {
-        
-        Destroy(gameObject, m_LifeTime);
-        Invoke("EnableCollider", 0.1f);
-	}
-	
-    public void SetDamageValue(int _damage)
-    {
-        damage = _damage;
-    }
+    [SerializeField]
+    private float lifeTime;
+    private IPersonController owner  = null;
+    private int damage;
+    [SerializeField]
+    private float bulletVelocity = 3;
 
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    void Start () {
+        
+        Destroy(gameObject, lifeTime);
+        Invoke("EnableCollider", 0.1f);
+        GetComponent<Rigidbody>().velocity = Vector3.forward * bulletVelocity;
+    }
+	
+    public void Init(IPersonController _owner)
+    {
+        owner = _owner;
+        damage = owner.GetLevel().DamageAtLevel;
+    }
 
     void EnableCollider()
     {
@@ -31,9 +33,8 @@ public class BulletController : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Enemy")
-
         {
-            other.GetComponent<Health>().Damage(damage);
+            CombatSystem.CalculateDamage(other.GetComponent<IPersonController>(), owner);            
             Destroy(gameObject);
         }
     }
