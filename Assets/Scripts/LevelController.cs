@@ -1,137 +1,99 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LevelController : MonoBehaviour {
 
+    public UnityAction<int> OnLevelChange = null;
+    public UnityAction<int> OnExperienceChange = null;
+
     [Header("Main")]
     [SerializeField]
-    int m_Level = 0;
+    int level = 0;
     int ScoreToLvl = 100;
     int score;
     [Header("Gun")]
     [SerializeField]
-    int m_DamageOnStart = 5;
+    int damageOnStart = 5;
     [SerializeField]
-    int m_DamagePerLvl = 1;
+    int damagePerLvl = 1;
     
 
     [Header("Health")]
     [SerializeField]
-    int m_HealthOnStart = 10;
+    int healthOnStart = 10;
     [SerializeField]
-    int m_HealthPerLvl = 1;
+    int healthPerLvl = 1;
 
     [Header("Movement")]
     [SerializeField]
-    int m_MovementOnStart = 2;
+    int movementOnStart = 2;
     [SerializeField]
-    int m_MovementPerLvl = 1;
+    int movementPerLvl = 1;
 
     public IPersonController Person;
-
-    public int DamageOnStart
+    
+    public int DamageAtLevel
     {
         get
         {
-            return m_DamageOnStart;
-        }
-
-        set
-        {
-            m_DamageOnStart = value;
-        }
-    }
-
-    public int DamagePerLvl
-    {
-        get
-        {
-            return m_DamagePerLvl;
-        }
-
-        set
-        {
-            m_DamagePerLvl = value;
-        }
+            return damageOnStart + Level * damagePerLvl;
+        }        
     }
 
     public int Level
     {
         get
         {
-            return m_Level;
+            return level;
         }
 
         set
         {
-            m_Level = value;
-        }
-    }
-
-    public int HealthOnStart
-    {
-        get
-        {
-            return m_HealthOnStart;
-        }
-
-        set
-        {
-            m_HealthOnStart = value;
-        }
-    }
-
-    public int HealthPerLvl
-    {
-        get
-        {
-            return m_HealthPerLvl;
-        }
-
-        set
-        {
-            m_HealthPerLvl = value;
-        }
-    }
-
-    public int MovementOnStart
-    {
-        get
-        {
-            return m_MovementOnStart;
-        }
-
-        set
-        {
-            m_MovementOnStart = value;
-        }
-    }
-
-    public int MovementPerLvl
-    {
-        get
-        {
-            return m_MovementPerLvl;
-        }
-
-        set
-        {
-            m_MovementPerLvl = value;
+            level = value;
         }
     }
     
+    public int MovementAtLevel
+    {
+        get
+        {
+            return movementOnStart + level * movementPerLvl; ;
+        }       
+    }
+
+    public int HealthAtLevel
+    {
+        get
+        {
+            return healthOnStart + level * healthPerLvl; ;
+        }
+    }
+
+    private void Start()
+    {
+        GameController.OnChangeScore += AddScore;
+    }
 
     public void LevelUp(int _levelIncrease)
     {
         Level += _levelIncrease;
-        Person.LevelUp(1);
+       
+        if (OnLevelChange != null)
+        {
+            OnLevelChange(Level);
+        }       
     }
 
-    public void AddScore(int value)
+    private void AddScore(int value)
     {
         score += value;
-       
+        if(OnExperienceChange != null)
+        {
+            OnExperienceChange(value);
+        }
+
         if (score >= ScoreToLvl)
         {
             score = score - ScoreToLvl;
