@@ -13,16 +13,21 @@ public class GameUIController : MonoBehaviour {
     private int scoreTotal = 0;
     public Text m_PlayerLevelText;
     public GameObject m_LvlUpText;
-    string _ScoreLabel = "Game.UI.ScoreLabel";    
-    string _LevelLabel = "Game.UI.LevelLabel";
-
-    // Use this for initialization
-    void Start ()
+    private string _ScoreLabel = "Game.UI.ScoreLabel";
+    private string _LevelLabel = "Game.UI.LevelLabel";
+    
+    private void Start ()
     {
         GameController.OnChangeScore += UpdateScore;
         ShowLevelUP += UpdateLevel;
-    }	
-	
+    }
+
+    private void OnDestroy()
+    {
+        GameController.OnChangeScore -= UpdateScore;
+        ShowLevelUP -= UpdateLevel;
+    }
+
     private void UpdateScore(int score)
     {
         scoreTotal += score;

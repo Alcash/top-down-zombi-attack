@@ -9,34 +9,24 @@ namespace Arcade
     [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(LevelController))]
     public class PlayerController : MonoBehaviour, IPersonController
-    {
-
-        [Header("Gun")]
-        public float m_FireRate = 5;
-       
-        int curentDamage;
-
-        public GameObject m_BulletPrefab;
-        public Transform m_SpawnPoint;
+    {       
         [SerializeField]
-        private ParticleSystem m_ParticleSystem;
+        private ParticleSystem m_ParticleSystem = null;
+        [SerializeField]
+        private BaseGunController gunController = null;
+        private Health health = null;
+        private LevelController levelController = null;
+        private Animator animator = null;
+        private Rigidbody m_Rigidbody = null;
+        private Camera m_MainCamera = null;
+        
+        private float input_vertictal = 0;
+        private float input_horizontal = 0;
+        private Vector3 Look_Direction = Vector3.zero;
+        private Vector3 Mouse_Touch = Vector3.zero;
+        private bool Attack = false;
 
-
-
-        private float secondReload;
-        private Health health;
-        private LevelController levelController;
-
-        Rigidbody m_Rigidbody;
-        Camera m_MainCamera;
-        // Use this for initialization
-        float input_vertictal;
-        float input_horizontal;
-        Vector3 Look_Direction;
-        Vector3 Mouse_Touch;
-        bool Attack;
-
-        void Start()
+        private void Start()
         {
             health = GetComponent<Health>();
             m_Rigidbody = GetComponent<Rigidbody>();
@@ -45,17 +35,20 @@ namespace Arcade
 
             levelController.OnLevelChange += LevelUp;
             levelController.OnLevelChange += GameUIController.ShowLevelUP;
-            m_ParticleSystem.gameObject.SetActive(false);
-            secondReload = 1 / m_FireRate;
+            m_ParticleSystem.gameObject.SetActive(false);           
             Attack = true;
-            curentDamage = levelController.DamageAtLevel;
-            StartCoroutine(RepeatShoot());
+            gunController.Init(this);
+            gunController.AutoShoot = Attack;
+        }
 
+        private void OnDisable()
+        {
+            levelController.OnLevelChange -= LevelUp;
+            levelController.OnLevelChange -= GameUIController.ShowLevelUP;
         }
 
         public void LevelUp(int value)
-        {
-            curentDamage = levelController.DamageAtLevel;
+        {           
             StartCoroutine(LevelUpParticle());
         }
 
@@ -66,9 +59,7 @@ namespace Arcade
             m_ParticleSystem.gameObject.SetActive(true);
         }
 
-
-        // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (Input.GetMouseButtonDown(0))
             {
@@ -76,7 +67,7 @@ namespace Arcade
             }
         }
 
-        void Turn()
+        private void Turn()
         {
             var dir = LookAtMouse();
 
@@ -104,20 +95,7 @@ namespace Arcade
             Debug.DrawLine(transform.position, lookPos);
 
             return lookDir;
-        }
-
-        IEnumerator RepeatShoot()
-        {
-            while (Attack)
-            {
-                yield return new WaitForSeconds(secondReload);
-
-                //Instantiate<>(Resources.Load("nameprefab in folder Resources"))
-                var bullet = Instantiate(m_BulletPrefab, m_SpawnPoint.position, m_SpawnPoint.rotation);
-               
-                bullet.GetComponent<BulletController>().Init(this);
-            }
-        }
+        }        
 
         public void Death()
         {

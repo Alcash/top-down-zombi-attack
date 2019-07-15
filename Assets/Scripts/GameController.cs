@@ -19,11 +19,8 @@ public class GameController : MonoBehaviour {
     public int m_Score = 0;
 
     public  GameUIController gameUIController;
-
-
-
-	// Use this for initialization
-	void Start () {
+	
+	private void Start () {
 
         if(singleton == null )
             singleton = this;
@@ -39,15 +36,12 @@ public class GameController : MonoBehaviour {
             Debug.Log("m_PlayerGameObject.transform.position" + m_PlayerGameObject.transform.position);
             return m_PlayerGameObject.transform.position;
         }
-    }
-
-	
+    }	
 
     public void Gameover()
     {
         Time.timeScale = 0;
         m_GameoverPanel.SetActive(true);
-
     }
 
     public void AddScore(int score)

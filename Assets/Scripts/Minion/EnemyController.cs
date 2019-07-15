@@ -22,19 +22,17 @@ public class EnemyController : MonoBehaviour, IPersonController
         Destroy(gameObject);
     }
 
-    // Use this for initialization
-    void Awake () {
-       // Debug.Log("Awake " + name);
+    private void Awake ()
+    {       
         m_Heath = GetComponent<Health>();
         rigidbodyThis = GetComponent<Rigidbody>();
-        //Debug.Log("m_Rigidbody " + m_Rigidbody.name);
+        
         levelController = GetComponent<LevelController>();
         movementSpeed =  levelController.MovementAtLevel;    
     }
-	
-    void AddScore(int value)
-    {
 
+    private void AddScore(int value)
+    {
     }   
 
     public void SetTarget(Vector3 _target)
@@ -47,7 +45,7 @@ public class EnemyController : MonoBehaviour, IPersonController
         Move();
     }
 
-    void Move()
+    private void Move()
     {
         if(target)
             rigidbodyThis.velocity = rigidbodyThis.transform.forward * movementSpeed;

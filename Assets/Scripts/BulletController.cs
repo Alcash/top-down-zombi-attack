@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletController : MonoBehaviour {
 
     [SerializeField]
-    private float lifeTime;
+    private float lifeTime = 5;
     private IPersonController owner  = null;
     private int damage;
     [SerializeField]
@@ -14,11 +14,17 @@ public class BulletController : MonoBehaviour {
 
     void Start () {
         
-        Destroy(gameObject, lifeTime);
+       // Destroy(gameObject, lifeTime);
         Invoke("EnableCollider", 0.1f);
-        GetComponent<Rigidbody>().velocity = Vector3.forward * bulletVelocity;
+        GetComponent<Rigidbody>().velocity = transform.forward * bulletVelocity;
+       
     }
-	
+
+    private void OnDestroy()
+    {
+        Debug.Log("OnDestroy");
+    }
+
     public void Init(IPersonController _owner)
     {
         owner = _owner;
