@@ -5,16 +5,15 @@ using UnityEngine;
 
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(LevelController))]
-[RequireComponent(typeof(Rigidbody))]
 public class EnemyController : MonoBehaviour, IPersonController
 {
     public int m_Score = 1;   
     private Rigidbody rigidbodyThis;
     private bool target;
+    private Vector3 targetPos;
     private Health m_Heath;
     private LevelController levelController;
-    private int movementSpeed;
-    
+    private int movementSpeed;    
 
     public void Death()
     {
@@ -26,9 +25,18 @@ public class EnemyController : MonoBehaviour, IPersonController
     {       
         m_Heath = GetComponent<Health>();
         rigidbodyThis = GetComponent<Rigidbody>();
-        
+
+        var colliders = GetComponentsInChildren<ColliderHitController>();
+
+        foreach (var item in colliders)
+        {
+            item.InitColliderHit(this);
+        }
+
         levelController = GetComponent<LevelController>();
-        movementSpeed =  levelController.MovementAtLevel;    
+        movementSpeed =  levelController.MovementAtLevel;
+
+      
     }
 
     private void AddScore(int value)
@@ -37,11 +45,12 @@ public class EnemyController : MonoBehaviour, IPersonController
 
     public void SetTarget(Vector3 _target)
     {
-        var dir = _target - transform.position;
-        //Debug.DrawLine(transform.position, _target);
-        //Debug.Log("transform.position" + transform.position);
-        rigidbodyThis.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
+        targetPos = _target;
         target = true;
+
+        var dir = targetPos - transform.position;
+        rigidbodyThis.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
+
         Move();
     }
 
@@ -55,7 +64,7 @@ public class EnemyController : MonoBehaviour, IPersonController
     {
         if (other.tag == "Player")
         {
-            CombatSystem.CalculateDamage(other.GetComponent<IPersonController>(), this);            
+            CombatSystem.CalculateDamage(other.GetComponent<IPersonController>(), this);
             Destroy(gameObject);
         }
     }
@@ -68,5 +77,15 @@ public class EnemyController : MonoBehaviour, IPersonController
     public LevelController GetLevel()
     {
         return levelController;
+    }
+
+    internal void OnHeadHit(IPersonController personController)
+    {
+        CombatSystem.CalculateCriticalDamage(this, personController);
+    }
+
+    internal void OnBodyHit(IPersonController personController)
+    {
+        CombatSystem.CalculateDamage(this, personController);         
     }
 }
