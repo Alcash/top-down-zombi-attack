@@ -79,13 +79,13 @@ public class EnemyController : MonoBehaviour, IPersonController
         return levelController;
     }
 
-    internal void OnHeadHit(IPersonController personController)
+    internal void OnHeadHit(HitData hitData)
     {
-        CombatSystem.CalculateCriticalDamage(this, personController);
+        CombatSystem.CalculateCriticalDamage(this, hitData.Owner);
     }
 
-    internal void OnBodyHit(IPersonController personController)
+    internal void OnBodyHit(HitData hitData)
     {
-        CombatSystem.CalculateDamage(this, personController);         
+        CombatSystem.CalculateDamage(this, hitData.Owner);         
     }
 }

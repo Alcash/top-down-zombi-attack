@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Контроллер попадания пули
+/// </summary>
 public class BulletController : MonoBehaviour {
 
     [SerializeField]
@@ -35,7 +38,7 @@ public class BulletController : MonoBehaviour {
     {
         IDamagable damagable = other.GetComponent<IDamagable>();
         if(damagable != null)
-            damagable.TakeHit(owner);
+            damagable.TakeHit(new HitData(gameObject, owner));
 
        Destroy(gameObject);        
     }

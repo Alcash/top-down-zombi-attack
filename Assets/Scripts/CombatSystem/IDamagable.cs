@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IDamagable
 {
-    void TakeHit(IPersonController personController);
+    void TakeHit(HitData hitData);
 }

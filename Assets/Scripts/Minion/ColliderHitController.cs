@@ -9,7 +9,7 @@ public class ColliderHitController : MonoBehaviour, IDamagable
 {
     protected EnemyController enemyController = null;
 
-    protected delegate void OnHit(IPersonController personController);
+    protected delegate void OnHit(HitData hitData);
 
     protected OnHit onHitCollider = null;
 
@@ -22,8 +22,12 @@ public class ColliderHitController : MonoBehaviour, IDamagable
         enemyController = _enemyController;
     }
 
-    public void TakeHit(IPersonController personController)
+    /// <summary>
+    /// Получение попадания от personController
+    /// </summary>
+    /// <param name="personController"></param>
+    public void TakeHit(HitData hitData)
     {       
-        onHitCollider(personController);
+        onHitCollider(hitData);
     }    
 }
