@@ -6,5 +6,8 @@ using UnityEngine;
 public interface IPersonController  {
 
     void Death();
-    void LevelUp(int value);
+
+    Health GetHealth();
+
+    LevelController GetLevel();
 }

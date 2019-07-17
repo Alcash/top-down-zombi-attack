@@ -4,129 +4,112 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Health))]
-[RequireComponent(typeof(LevelController))]
-public class PlayerController : MonoBehaviour , IPersonController
+namespace Arcade
 {
-
-    [Header("Gun")]
-    public float m_FireRate = 5;
-    public float m_BulletVelocity = 3;
-    int curentDamage;
-
-    public GameObject m_BulletPrefab;
-    public Transform m_SpawnPoint;
-    ParticleSystem m_ParticleSystem;
-
-    public GameObject m_LvlUpText;
-
-    float secondReload;
-    Health m_health;
-    LevelController m_levelController;
-
-    Rigidbody m_Rigidbody;
-    Camera m_MainCamera;
-    // Use this for initialization
-    float input_vertictal;
-    float input_horizontal;
-    Vector3 Look_Direction;
-    Vector3 Mouse_Touch;
-    bool Attack;
-
-
-    void Start () {
-        m_health = GetComponent<Health>();
-        m_Rigidbody = GetComponent<Rigidbody>();
-        m_MainCamera = Camera.main;
-        m_levelController = GetComponent<LevelController>();
-
-        m_levelController.Person = this;
-        m_ParticleSystem = GetComponent<ParticleSystem>();
-        m_ParticleSystem.Stop();
-        secondReload = 1 / m_FireRate;
-        Attack = true;
-        curentDamage = m_levelController.DamageOnStart + m_levelController.Level * m_levelController.DamagePerLvl;
-        StartCoroutine( RepeatShoot());
+    [RequireComponent(typeof(Health))]
+    [RequireComponent(typeof(LevelController))]
+    public class PlayerController : MonoBehaviour, IPersonController
+    {       
+        [SerializeField]
+        private ParticleSystem m_ParticleSystem = null;
+        [SerializeField]
+        private BaseGunController gunController = null;
+        private Health health = null;
+        private LevelController levelController = null;
+        private Animator animator = null;
+        private Rigidbody m_Rigidbody = null;
+        private Camera m_MainCamera = null;
         
-    }
+        private float input_vertictal = 0;
+        private float input_horizontal = 0;
+        private Vector3 Look_Direction = Vector3.zero;
+        private Vector3 Mouse_Touch = Vector3.zero;
+        private bool Attack = false;
 
-    public void LevelUp(int value)
-    {
-        curentDamage = m_levelController.DamageOnStart + m_levelController.Level * m_levelController.DamagePerLvl;
-        m_ParticleSystem.Play();
-        m_LvlUpText.SetActive(true);
-        Invoke("StopParticle", 3);
-    }
-
-    
-
-    void StopParticle()
-    {
-        m_LvlUpText.SetActive(false);
-        m_ParticleSystem.Stop();
-    }
-
-
-    // Update is called once per frame
-    void Update () {
-
-        if (Input.GetMouseButtonDown(0))
+        private void Start()
         {
-            Mouse_Touch = Input.mousePosition;
-            
+            health = GetComponent<Health>();
+            m_Rigidbody = GetComponent<Rigidbody>();
+            m_MainCamera = Camera.main;
+            levelController = GetComponent<LevelController>();
+
+            levelController.OnLevelChange += LevelUp;
+            levelController.OnLevelChange += GameUIController.ShowLevelUP;
+            m_ParticleSystem.gameObject.SetActive(false);           
+            Attack = true;
+            gunController.Init(this);
+            gunController.AutoShoot = Attack;
         }
 
-    }
-
-    void Turn()
-    {
-       
-        var dir = LookAtMouse();        
-        
-        dir.y = 0.0f;
-        if (dir.magnitude != 0)
-            m_Rigidbody.rotation = Quaternion.LookRotation(dir, Vector3.up);        
-    }
-
-    private void FixedUpdate()
-    {
-        Turn();
-    }
-
-    private Vector3 LookAtMouse()
-    {
-         Vector3 lookPos = new Vector3();
-         Ray cameraRay = m_MainCamera.ScreenPointToRay(Input.mousePosition);
-         RaycastHit hit;
-         if (Physics.Raycast(cameraRay, out hit, LayerMask.GetMask("Ground")))
-         {
-             lookPos = hit.point;
-         }
-
-         Vector3 lookDir = lookPos - transform.position;
-         Debug.DrawLine(transform.position, lookPos);
-         
-         return lookDir;
-        
-    }
-
-    IEnumerator RepeatShoot()
-    {
-
-        while (Attack)
+        private void OnDisable()
         {
-
-            yield return new WaitForSeconds(secondReload);
-
-            //Instantiate<>(Resources.Load("nameprefab in folder Resources"))
-            var bullet = Instantiate(m_BulletPrefab, m_SpawnPoint.position, m_SpawnPoint.rotation);
-            bullet.GetComponent<Rigidbody>().velocity = m_SpawnPoint.forward * m_BulletVelocity;
-            bullet.GetComponent<BulletController>().SetDamageValue(curentDamage);
+            levelController.OnLevelChange -= LevelUp;
+            levelController.OnLevelChange -= GameUIController.ShowLevelUP;
         }
-    }
 
-    public void Death()
-    {
-        GameController.singleton.Gameover();
+        public void LevelUp(int value)
+        {           
+            StartCoroutine(LevelUpParticle());
+        }
+
+        private IEnumerator LevelUpParticle()
+        {
+            m_ParticleSystem.gameObject.SetActive(true);           
+            yield return new WaitForSeconds(3);          
+            m_ParticleSystem.gameObject.SetActive(true);
+        }
+
+        private void Update()
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Mouse_Touch = Input.mousePosition;
+            }
+        }
+
+        private void Turn()
+        {
+            var dir = LookAtMouse();
+
+            dir.y = 0.0f;
+            if (dir.magnitude != 0)
+                m_Rigidbody.rotation = Quaternion.LookRotation(dir, Vector3.up);
+        }
+
+        private void FixedUpdate()
+        {
+            Turn();
+        }
+
+        private Vector3 LookAtMouse()
+        {
+            Vector3 lookPos = new Vector3();
+            Ray cameraRay = m_MainCamera.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(cameraRay, out hit, LayerMask.GetMask("Ground")))
+            {
+                lookPos = hit.point;
+            }
+
+            Vector3 lookDir = lookPos - transform.position;
+            Debug.DrawLine(transform.position, lookPos);
+
+            return lookDir;
+        }        
+
+        public void Death()
+        {
+            GameController.singleton.Gameover();
+        }
+
+        public Health GetHealth()
+        {
+            return health;
+        }
+
+        public LevelController GetLevel()
+        {
+            return levelController;
+        }
     }
 }
