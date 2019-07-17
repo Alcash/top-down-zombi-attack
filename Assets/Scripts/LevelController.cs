@@ -18,7 +18,7 @@ public class LevelController : MonoBehaviour {
     int damageOnStart = 5;
     [SerializeField]
     int damagePerLvl = 1;
-    
+    float criticalMultiplier = 0.5f;
 
     [Header("Health")]
     [SerializeField]
@@ -40,6 +40,14 @@ public class LevelController : MonoBehaviour {
         {
             return damageOnStart + Level * damagePerLvl;
         }        
+    }
+
+    public int CriticalDamageAtLevel
+    {
+        get
+        {
+            return (int)(DamageAtLevel * (1 + criticalMultiplier));
+        }
     }
 
     public int Level
