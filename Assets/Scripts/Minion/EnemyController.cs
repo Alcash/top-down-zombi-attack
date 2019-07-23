@@ -39,6 +39,12 @@ public class EnemyController : MonoBehaviour, IPersonController
       
     }
 
+    private void Update()
+    {
+        Move(Time.deltaTime);
+        
+    }
+
     private void AddScore(int value)
     {
     }   
@@ -49,15 +55,15 @@ public class EnemyController : MonoBehaviour, IPersonController
         target = true;
 
         var dir = targetPos - transform.position;
-        rigidbodyThis.transform.rotation = Quaternion.LookRotation(dir, Vector3.up);
-
-        Move();
+        transform.rotation = Quaternion.LookRotation(dir, Vector3.up);       
     }
 
-    private void Move()
+    private void Move(float delta)
     {
-        if(target)
-            rigidbodyThis.velocity = rigidbodyThis.transform.forward * movementSpeed;
+        if (target)
+        {
+            transform.Translate(Vector3.forward * movementSpeed * delta , Space.Self);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

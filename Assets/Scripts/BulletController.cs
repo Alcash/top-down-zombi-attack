@@ -18,10 +18,13 @@ public class BulletController : MonoBehaviour {
     void Start () {
         
         Destroy(gameObject, lifeTime);
-        Invoke("EnableCollider", 0.2f);
-        GetComponent<Rigidbody>().velocity = transform.forward * bulletVelocity;
-       
-    }   
+        Invoke("EnableCollider", 0.2f);  
+    }
+
+    private void Update()
+    {
+        transform.Translate(Vector3.forward * bulletVelocity * Time.deltaTime, Space.Self);
+    }
 
     public void Init(IPersonController _owner)
     {
@@ -35,12 +38,13 @@ public class BulletController : MonoBehaviour {
     }
 
     private void OnTriggerEnter(Collider other)
-    {
+    {        
         IDamagable damagable = other.GetComponent<IDamagable>();
-        if(damagable != null)
+        if (damagable != null)
+        {
             damagable.TakeHit(new HitData(gameObject, owner));
-
-       Destroy(gameObject);        
+            Destroy(gameObject);
+        }            
     }
 
     public IPersonController GetOwner()

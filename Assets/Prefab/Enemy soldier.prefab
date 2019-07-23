@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 114619308107532064}
   - component: {fileID: 114493010890029134}
   - component: {fileID: 114135677065033506}
-  - component: {fileID: 236532011}
-  - component: {fileID: 7506327920959132842}
+  - component: {fileID: 1944116515}
+  - component: {fileID: 1944116514}
   m_Layer: 0
   m_Name: Enemy soldier
   m_TagString: Enemy
@@ -67,7 +67,7 @@ MonoBehaviour:
   damagePerLvl: 1
   healthOnStart: 10
   healthPerLvl: 1
-  movementOnStart: 2
+  movementOnStart: 5
   movementPerLvl: 1
 --- !u!114 &114135677065033506
 MonoBehaviour:
@@ -82,7 +82,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Score: 7
---- !u!54 &236532011
+--- !u!54 &1944116515
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -98,7 +98,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &7506327920959132842
+--- !u!65 &1944116514
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,11 +106,27 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1448860273104742}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.5237943, y: 2.2433183, z: 0.5809684}
-  m_Center: {x: 0.009521067, y: -0.049173236, z: 0.020758033}
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1260873035980206758
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218356777520522815}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &7350641571019195054
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -136,6 +152,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f43035302dc177d419c0f834eee07093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!54 &2663100918290381355
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1218356777520522847}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &7640982419454402926
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -378,12 +410,6 @@ PrefabInstance:
       objectReference: {fileID: 1218356777520429629}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5a35c5f0a89b9654d897ccd7c8f81bd0, type: 3}
---- !u!4 &1218356777520429631 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 400036, guid: 5a35c5f0a89b9654d897ccd7c8f81bd0,
-    type: 3}
-  m_PrefabInstance: {fileID: 1218356777520554139}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1218356777520429663 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400068, guid: 5a35c5f0a89b9654d897ccd7c8f81bd0,
@@ -468,6 +494,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1218356777520554139}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1218356777520522847 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100036, guid: 5a35c5f0a89b9654d897ccd7c8f81bd0,
+    type: 3}
+  m_PrefabInstance: {fileID: 1218356777520554139}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1218356777520429651 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 400072, guid: 5a35c5f0a89b9654d897ccd7c8f81bd0,
@@ -528,9 +560,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1218356777520554139}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1218356777520522847 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100036, guid: 5a35c5f0a89b9654d897ccd7c8f81bd0,
+--- !u!4 &1218356777520429631 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400036, guid: 5a35c5f0a89b9654d897ccd7c8f81bd0,
     type: 3}
   m_PrefabInstance: {fileID: 1218356777520554139}
   m_PrefabAsset: {fileID: 0}
