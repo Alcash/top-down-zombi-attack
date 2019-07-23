@@ -81,10 +81,10 @@ namespace Arcade
         private GameObject GetRandomEnemy()
         {
             SpawnData_SO spawnEnemyData = enemyDataList[0];
-            float rand = Random.value;
+            float rand = Random.value;          
             for (int i = 1; chancesSpawn[i] < rand; i++)
             {
-                spawnEnemyData = enemyDataList[i - 1];
+                spawnEnemyData = enemyDataList[i];
             }
 
             return spawnEnemyData.SpawnEnemy;
