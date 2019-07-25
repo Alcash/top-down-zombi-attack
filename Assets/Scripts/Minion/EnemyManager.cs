@@ -94,7 +94,8 @@ namespace Arcade
         {
             _NumberWave += 1;
             var tempSeconds = m_MaxSecondsBetweenSpawn - _NumberWave * m_SecondsBetweenSpawnPerWave;
-            _SecondsBetweenSpawn = Mathf.Min(m_MinSecondsBetweenSpawn, tempSeconds);
+            Debug.Log("tempSeconds " + tempSeconds);
+            _SecondsBetweenSpawn = Mathf.Max(m_MinSecondsBetweenSpawn, Random.Range(m_MinSecondsBetweenSpawn, tempSeconds));
         }
     }
 }

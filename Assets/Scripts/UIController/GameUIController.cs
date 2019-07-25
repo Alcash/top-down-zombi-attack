@@ -8,6 +8,7 @@ using UnityEngine.UI;
 public class GameUIController : MonoBehaviour {
 
     public static UnityAction<int> ShowLevelUP = null;
+    public static UnityAction<float> OnUpdateHealth = null;
 
     public Text m_ScoreText;
     private int scoreTotal = 0;
@@ -15,17 +16,27 @@ public class GameUIController : MonoBehaviour {
     public GameObject m_LvlUpText;
     private string _ScoreLabel = "Game.UI.ScoreLabel";
     private string _LevelLabel = "Game.UI.LevelLabel";
+
+    [SerializeField]
+    private Slider playerHealth = null;
     
     private void Start ()
     {
         GameController.OnChangeScore += UpdateScore;
         ShowLevelUP += UpdateLevel;
+        OnUpdateHealth += UpdateHealth;
     }
 
     private void OnDestroy()
     {
         GameController.OnChangeScore -= UpdateScore;
         ShowLevelUP -= UpdateLevel;
+        OnUpdateHealth -= UpdateHealth;
+    }
+
+    private void UpdateHealth(float health)
+    {
+        playerHealth.value = health;
     }
 
     private void UpdateScore(int score)
@@ -37,6 +48,7 @@ public class GameUIController : MonoBehaviour {
 
     private void UpdateLevel(int level)
     {
+        Debug.Log("UpdateLevel");
         m_PlayerLevelText.text = LocalizationManager.instance.GetLocalizedValue(_LevelLabel) + level;
         StartCoroutine(LevelUpParticle());
     }
