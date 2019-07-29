@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
-public class GameUIController : MonoBehaviour {
+public class GameUIController : BaseUIController {
 
     public static UnityAction<int> ShowLevelUP = null;
     public static UnityAction<float> OnUpdateHealth = null;
@@ -19,13 +19,14 @@ public class GameUIController : MonoBehaviour {
 
     [SerializeField]
     private Slider playerHealth = null;
-    
-    private void Start ()
+
+    protected override void Init()
     {
+        base.Init();
         GameController.OnChangeScore += UpdateScore;
         ShowLevelUP += UpdateLevel;
         OnUpdateHealth += UpdateHealth;
-    }
+    }  
 
     private void OnDestroy()
     {

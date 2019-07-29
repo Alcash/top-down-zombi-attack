@@ -4,27 +4,26 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class MainMenuController : MonoBehaviour {
+public class MainMenuUIController : BaseUIController {
 
     public Text m_LabelMaxScore;
     public string m_MaxScoreLabel = "Максимальный результат ";
 
-	// Use this for initialization
-	void Start () {
-
+    protected override void Init()
+    {
+        base.Init();
         var _maxScore = PlayerPrefs.GetInt("MaxScore", 0);
         m_LabelMaxScore.text = m_MaxScoreLabel + _maxScore;
-
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
+    protected override void Open()
+    {
+        base.Open();
+        Debug.Log(name + " open");
+    }
     public void StartGame()
     {
-        SceneManager.LoadScene("Game");
+        GameController.singleton.StartGame();
     }
     public void Exit()
     {

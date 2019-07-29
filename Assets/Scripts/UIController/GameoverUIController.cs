@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 
-public class PanelGameoverController : MonoBehaviour {
+public class GameoverUIController : BaseUIController {
 
     public Text m_GameoverText;
     public Text m_ResultText;
@@ -26,11 +26,10 @@ public class PanelGameoverController : MonoBehaviour {
         m_ExitButton.onClick.AddListener(Exit);
 
     }
-		
 
-    private void OnEnable()
-    {
-        m_GameoverText.text = LocalizationManager.instance.GetLocalizedValue(_GameoverLabel);
+    protected override void Open()
+    {     
+         m_GameoverText.text = LocalizationManager.instance.GetLocalizedValue(_GameoverLabel);
 
         var _BestResult = PlayerPrefs.GetInt("MaxScore", 0);
         if (_BestResult >= GameController.singleton.m_Score)
@@ -44,6 +43,11 @@ public class PanelGameoverController : MonoBehaviour {
             m_ResultText.text = LocalizationManager.instance.GetLocalizedValue(_NewBestResultLabel) + GameController.singleton.m_Score.ToString();
             m_ResultText.text += "\n" + LocalizationManager.instance.GetLocalizedValue(_PreBestResultLabel) + _BestResult;
         }
+    }
+
+    private void OnEnable()
+    {
+       
         
     }
 
