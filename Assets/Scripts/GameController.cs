@@ -4,53 +4,44 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
-using System;
 
-
-public class GameController : MonoBehaviour
-{
+public class GameController : MonoBehaviour {
 
     public static UnityAction<int> OnChangeScore = null;
     public static GameController singleton;
     public GameObject m_PlayerGameObject;
-    public Arcade.EnemyManager enemyManager;
+
+    [HideInInspector]
+    public LevelController playerLevel;
+
+    public GameObject m_GameoverPanel;  
+    
     public int m_Score = 0;
 
-    private void Start()
-    {
+    public  GameUIController gameUIController;
+	
+	private void Start () {
 
-        if (singleton == null)
+        if(singleton == null )
             singleton = this;
-
+        playerLevel = m_PlayerGameObject.GetComponent<LevelController>();
         Time.timeScale = 1;
-
-        StartCoroutine(LocalizationManager.instance.LoadLocalizedText());
-
-        UIManager.OpenWindow(typeof(MainMenuUIController).ToString());
+        m_GameoverPanel.SetActive(false);
+        StartCoroutine( LocalizationManager.instance.LoadLocalizedText());
     }
-
-    internal void StartGame()
-    {
-        m_PlayerGameObject.GetComponent<Arcade.PlayerController>().EnableAttack(true);
-        enemyManager.EnableSpawn(true);
-    }
-
+	
     public Vector3 PlayerPosition
     {
-        get
-        {
+       get {
             Debug.Log("m_PlayerGameObject.transform.position" + m_PlayerGameObject.transform.position);
             return m_PlayerGameObject.transform.position;
         }
-    }
+    }	
 
     public void Gameover()
     {
         Time.timeScale = 0;
-        UIManager.OpenWindow(typeof(GameoverUIController).ToString());
-        enemyManager.EnableSpawn(false);
-        m_PlayerGameObject.GetComponent<Arcade.PlayerController>().EnableAttack(false);
-
+        m_GameoverPanel.SetActive(true);
     }
 
     public void AddScore(int score)
@@ -59,6 +50,6 @@ public class GameController : MonoBehaviour
         if (OnChangeScore != null)
         {
             OnChangeScore(score);
-        }
+        }   
     }
-} 
+}

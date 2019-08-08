@@ -6,7 +6,8 @@ namespace Arcade
 {
     public class EnemyManager : MonoBehaviour
     {
-       
+
+
         private SpawnData_SO[] enemyDataList = null;
 
         private float[] chancesSpawn = null;
@@ -28,7 +29,7 @@ namespace Arcade
         {
             enemyDataList = Resources.LoadAll<SpawnData_SO>("MinionDatas/");
             chancesSpawn = new float[enemyDataList.Length + 1];
-           
+            spawn = true;
             chancesSpawn[0] = 0;
 
 
@@ -39,14 +40,11 @@ namespace Arcade
 
             _SecondsBetweenSpawn = m_MaxSecondsBetweenSpawn;
             _NumberWave = 0;
-        }
 
-        public void EnableSpawn(bool value)
-        {
-            spawn = value;
             StartCoroutine(RepeatSpawn());
             StartCoroutine(RepeatInscreaseDifficulty());
         }
+
 
         void Spawn()
         {
@@ -96,8 +94,7 @@ namespace Arcade
         {
             _NumberWave += 1;
             var tempSeconds = m_MaxSecondsBetweenSpawn - _NumberWave * m_SecondsBetweenSpawnPerWave;
-            Debug.Log("tempSeconds " + tempSeconds);
-            _SecondsBetweenSpawn = Mathf.Max(m_MinSecondsBetweenSpawn, Random.Range(m_MinSecondsBetweenSpawn, tempSeconds));
+            _SecondsBetweenSpawn = Mathf.Min(m_MinSecondsBetweenSpawn, tempSeconds);
         }
     }
 }

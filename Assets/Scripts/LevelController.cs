@@ -28,9 +28,9 @@ public class LevelController : MonoBehaviour {
 
     [Header("Movement")]
     [SerializeField]
-    int movementOnStart = 1;
+    int movementOnStart = 2;
     [SerializeField]
-    float movementPerLvl = 0.5f;
+    int movementPerLvl = 1;
 
     public IPersonController Person;
     
@@ -63,7 +63,7 @@ public class LevelController : MonoBehaviour {
         }
     }
     
-    public float MovementAtLevel
+    public int MovementAtLevel
     {
         get
         {
