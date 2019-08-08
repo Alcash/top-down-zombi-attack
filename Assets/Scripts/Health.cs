@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Health : MonoBehaviour {
-
-    public UnityEngine.Events.UnityAction<int> OnHit = null;
-
     [SerializeField]
     int _MaxHealth;
 
@@ -33,12 +30,9 @@ public class Health : MonoBehaviour {
         _CurrentHealth -= damage;
         if (_CurrentHealth < 0)
         {
-
             _CurrentHealth = 0;
             person.Death();
         }
-        if(OnHit != null)
-            OnHit(_CurrentHealth);
     }
 
     // Use this for initialization
