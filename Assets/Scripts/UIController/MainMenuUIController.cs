@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+
+
 public class MainMenuUIController : BaseUIController {
 
     public Text m_LabelMaxScore;
@@ -24,6 +26,7 @@ public class MainMenuUIController : BaseUIController {
     public void StartGame()
     {
         GameController.singleton.StartGame();
+        Close();
     }
     public void Exit()
     {

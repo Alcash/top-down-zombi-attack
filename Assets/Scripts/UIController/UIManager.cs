@@ -13,18 +13,13 @@ public class UIManager : MonoBehaviour
     private BaseUIController[] uiControllers;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         OpenWindow += ShowWindow;
              
         uiControllers = CanvasGame.GetComponentsInChildren<BaseUIController>();
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+  
 
     public void ShowWindow(string baseUIController)
     {        

@@ -36,12 +36,18 @@ namespace Arcade
             levelController.OnLevelChange += LevelUp;
             levelController.OnLevelChange += ShowLevelUp;
             m_ParticleSystem.gameObject.SetActive(false);           
-            Attack = true;
+         
             gunController.Init(this);
-            gunController.AutoShoot = Attack;
+           
 
 
             health.OnHit += ShowCurrentHealth;
+        }
+
+        public void EnableAttack(bool value)
+        {
+            Attack = value;
+            gunController.AutoShoot = Attack;
         }
 
         private void OnDisable()
