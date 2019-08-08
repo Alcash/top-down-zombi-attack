@@ -34,17 +34,38 @@ namespace Arcade
             levelController = GetComponent<LevelController>();
 
             levelController.OnLevelChange += LevelUp;
-            levelController.OnLevelChange += GameUIController.ShowLevelUP;
+            levelController.OnLevelChange += ShowLevelUp;
             m_ParticleSystem.gameObject.SetActive(false);           
-            Attack = true;
+         
             gunController.Init(this);
+           
+
+
+            health.OnHit += ShowCurrentHealth;
+        }
+
+        public void EnableAttack(bool value)
+        {
+            Attack = value;
             gunController.AutoShoot = Attack;
         }
 
         private void OnDisable()
         {
             levelController.OnLevelChange -= LevelUp;
-            levelController.OnLevelChange -= GameUIController.ShowLevelUP;
+            levelController.OnLevelChange -= ShowLevelUp;
+            health.OnHit -= ShowCurrentHealth;
+        }
+
+        private void ShowLevelUp(int level)
+        {
+            Debug.Log("ShowLevelUp " + level);
+            GameUIController.ShowLevelUP(level);
+        }
+
+        private void ShowCurrentHealth(int currentHealth)
+        {
+            GameUIController.OnUpdateHealth((float)currentHealth / health.MaxHealth);
         }
 
         public void LevelUp(int value)
