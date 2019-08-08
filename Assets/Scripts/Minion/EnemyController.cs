@@ -13,7 +13,7 @@ public class EnemyController : MonoBehaviour, IPersonController
     private Vector3 targetPos;
     private Health m_Heath;
     private LevelController levelController;
-    private int movementSpeed;    
+    private float movementSpeed;    
 
     public void Death()
     {
