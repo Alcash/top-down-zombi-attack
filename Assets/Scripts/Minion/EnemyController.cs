@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Analytics;
 
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(LevelController))]
@@ -11,7 +12,7 @@ public class EnemyController : MonoBehaviour, IPersonController
     private Rigidbody rigidbodyThis;
     private bool target;
     private Vector3 targetPos;
-    private Health m_Heath;
+    private Health health;
     private LevelController levelController;
     private float movementSpeed;    
 
@@ -23,7 +24,8 @@ public class EnemyController : MonoBehaviour, IPersonController
 
     private void Awake ()
     {       
-        m_Heath = GetComponent<Health>();
+        health = GetComponent<Health>();
+        health.LevelUp();
         rigidbodyThis = GetComponent<Rigidbody>();
 
         var colliders = GetComponentsInChildren<ColliderHitController>();
@@ -36,7 +38,15 @@ public class EnemyController : MonoBehaviour, IPersonController
         levelController = GetComponent<LevelController>();
         movementSpeed =  levelController.MovementAtLevel;
 
-      
+        levelController.OnLevelChange += LevelUp;
+
+
+    }
+
+    public void LevelUp(int level)
+    {
+        movementSpeed = levelController.MovementAtLevel;
+        health.LevelUp();
     }
 
     private void Update()
@@ -77,7 +87,7 @@ public class EnemyController : MonoBehaviour, IPersonController
 
     public Health GetHealth()
     {
-        return m_Heath;
+        return health;
     }
 
     public LevelController GetLevel()

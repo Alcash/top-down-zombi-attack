@@ -67,8 +67,8 @@ MonoBehaviour:
   damagePerLvl: 1
   healthOnStart: 10
   healthPerLvl: 1
-  movementOnStart: 5
-  movementPerLvl: 1
+  movementOnStart: 1
+  movementPerLvl: 0.5
 --- !u!114 &114026311169514248
 MonoBehaviour:
   m_ObjectHideFlags: 0

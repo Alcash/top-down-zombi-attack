@@ -67,7 +67,7 @@ MonoBehaviour:
   damagePerLvl: 1
   healthOnStart: 10
   healthPerLvl: 1
-  movementOnStart: 5
+  movementOnStart: 1
   movementPerLvl: 1
 --- !u!114 &114548188312638648
 MonoBehaviour:
