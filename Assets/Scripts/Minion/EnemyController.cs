@@ -14,7 +14,10 @@ public class EnemyController : MonoBehaviour, IPersonController
     private Vector3 targetPos;
     private Health health;
     private LevelController levelController;
-    private float movementSpeed;    
+    private float targetMovementSpeed;
+    private float currentPercentSpeed;
+    private Animator animator;
+
 
     public void Death()
     {
@@ -27,7 +30,7 @@ public class EnemyController : MonoBehaviour, IPersonController
         health = GetComponent<Health>();
         health.LevelUp();
         rigidbodyThis = GetComponent<Rigidbody>();
-
+        animator = GetComponentInChildren<Animator>();
         var colliders = GetComponentsInChildren<ColliderHitController>();
 
         foreach (var item in colliders)
@@ -36,7 +39,7 @@ public class EnemyController : MonoBehaviour, IPersonController
         }
 
         levelController = GetComponent<LevelController>();
-        movementSpeed =  levelController.MovementAtLevel;
+        targetMovementSpeed =  levelController.MovementAtLevel;
 
         levelController.OnLevelChange += LevelUp;
 
@@ -45,13 +48,13 @@ public class EnemyController : MonoBehaviour, IPersonController
 
     public void LevelUp(int level)
     {
-        movementSpeed = levelController.MovementAtLevel;
+        targetMovementSpeed = levelController.MovementAtLevel;
         health.LevelUp();
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        Move(Time.deltaTime);
+        Move(Time.fixedDeltaTime);
         
     }
 
@@ -71,8 +74,10 @@ public class EnemyController : MonoBehaviour, IPersonController
     private void Move(float delta)
     {
         if (target)
-        {
-            transform.Translate(Vector3.forward * movementSpeed * delta , Space.Self);
+        {           
+            currentPercentSpeed = Mathf.Clamp(currentPercentSpeed + delta, 0, 1);
+            transform.Translate(Vector3.forward * currentPercentSpeed * targetMovementSpeed * delta , Space.Self);
+            animator.SetFloat("Forward", currentPercentSpeed);
         }
     }
 
