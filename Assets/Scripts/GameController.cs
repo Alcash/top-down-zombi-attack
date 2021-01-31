@@ -6,14 +6,16 @@ using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using System;
 
-
+/// <summary>
+/// Класс игровой логики
+/// </summary>
 public class GameController : MonoBehaviour
 {
 
     public static UnityAction<int> OnChangeScore = null;
     public static GameController singleton;
     public GameObject m_PlayerGameObject;
-    public Arcade.EnemyManager enemyManager;
+    public Arcade.EnemyManagerFactory managerFactory;
     public int m_Score = 0;
 
     private void Start()
@@ -32,7 +34,7 @@ public class GameController : MonoBehaviour
     internal void StartGame()
     {
         m_PlayerGameObject.GetComponent<Arcade.PlayerController>().EnableAttack(true);
-        enemyManager.EnableSpawn(true);
+        managerFactory.EnableProcess(true);
     }
 
     public Vector3 PlayerPosition
@@ -48,7 +50,7 @@ public class GameController : MonoBehaviour
     {
         Time.timeScale = 0;
         UIManager.OpenWindow(typeof(GameoverUIController).ToString());
-        enemyManager.EnableSpawn(false);
+        managerFactory.EnableProcess(false);
         m_PlayerGameObject.GetComponent<Arcade.PlayerController>().EnableAttack(false);
 
     }
