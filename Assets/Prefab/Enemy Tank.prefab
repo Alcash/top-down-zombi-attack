@@ -260,6 +260,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.5
       objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: 9f82aa7445f950f46b8d0737f163b7df, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: b20981669f99a344283f621418d3a11b, type: 2}
     - target: {fileID: 13700006, guid: 9f82aa7445f950f46b8d0737f163b7df, type: 3}
       propertyPath: m_Bones.Array.data[0]
       value: 
