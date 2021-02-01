@@ -6,7 +6,7 @@ using UnityEngine.Analytics;
 
 [RequireComponent(typeof(Health))]
 [RequireComponent(typeof(LevelController))]
-public class EnemyController : MonoBehaviour, IPersonController
+public class EnemyController : MonoBehaviour, IPersonController, IIdentitable
 {
     public int m_Score = 1;   
     private Rigidbody rigidbodyThis;
@@ -18,6 +18,15 @@ public class EnemyController : MonoBehaviour, IPersonController
     private float currentPercentSpeed;
     private Animator animator;
 
+    private string myId = "Minion";
+
+    string IIdentitable.Id => myId;
+
+    GameObject IIdentitable.GetGameObject => gameObject;
+
+    private IIdentitable myIdentity;
+
+    private List<IIdentitable> identitables;
 
     public void Death()
     {
@@ -43,7 +52,39 @@ public class EnemyController : MonoBehaviour, IPersonController
 
         levelController.OnLevelChange += LevelUp;
 
+        myIdentity = GetComponent<IIdentitable>();
+    }
 
+    private void OnEnable()
+    {
+        UnitsDataBase.AddNewUnit(gameObject);
+
+        myId = myId + UnitsDataBase.GetMyId(gameObject);
+
+        identitables = new List<IIdentitable>();
+        MonoBehaviour[] sceneObjects = FindObjectsOfType<MonoBehaviour>();
+
+        for (int i = 0; i < sceneObjects.Length; i++)
+        {
+            MonoBehaviour currentObj = sceneObjects[i];
+            IIdentitable currentComponent = currentObj.GetComponent<IIdentitable>();
+
+            if (currentComponent != null)
+            {
+                identitables.Add(currentComponent);
+            }
+        }
+
+
+        foreach (var item in identitables)
+        {
+            Debug.Log(item.GetGameObject);
+            if (IFFSystem.IsFoe(myIdentity, item))
+            {
+                SetTarget(item.GetGameObject.transform);
+                break;
+            }
+        }
     }
 
     public void LevelUp(int level)
@@ -62,9 +103,9 @@ public class EnemyController : MonoBehaviour, IPersonController
     {
     }   
 
-    public void SetTarget(Vector3 _target)
+    public void SetTarget(Transform _target)
     {
-        targetPos = _target;
+        targetPos = _target.position;
         target = true;
 
         var dir = targetPos - transform.position;
@@ -108,5 +149,10 @@ public class EnemyController : MonoBehaviour, IPersonController
     internal void OnBodyHit(HitData hitData)
     {
         CombatSystem.CalculateDamage(this, hitData.Owner);         
+    }
+
+    private void OnDestroy()
+    {
+        UnitsDataBase.RemoveUnit(gameObject);
     }
 }

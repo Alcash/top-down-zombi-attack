@@ -60,8 +60,7 @@ namespace Arcade
             var y = playerTransform.position.z + m_RadiusSpawn * Mathf.Sin(randSpawn * Mathf.PI * 2);
 
             var spawnEnemy = Instantiate(spawnEnemyPrefab, new Vector3(x, 0, y), new Quaternion());
-
-            spawnEnemy.GetComponent<EnemyController>().SetTarget(playerTransform.position); ;
+         
             spawnEnemy.GetComponent<LevelController>().LevelUp(_NumberWave);
         }
 
