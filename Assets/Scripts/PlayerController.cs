@@ -8,7 +8,7 @@ namespace Arcade
 {
     [RequireComponent(typeof(Health))]
     [RequireComponent(typeof(LevelController))]
-    public class PlayerController : MonoBehaviour, IPersonController
+    public class PlayerController : MonoBehaviour, IPersonController, IIdentitable
     {       
         [SerializeField]
         private ParticleSystem m_ParticleSystem = null;
@@ -25,6 +25,10 @@ namespace Arcade
         private Vector3 Look_Direction = Vector3.zero;
         private Vector3 Mouse_Touch = Vector3.zero;
         private bool Attack = false;
+
+        string IIdentitable.Id => "MainPlayer";
+
+        GameObject IIdentitable.GetGameObject => gameObject;
 
         private void Start()
         {
@@ -52,6 +56,7 @@ namespace Arcade
 
         private void OnDisable()
         {
+            UnitsDataBase.AddNewUnit(gameObject);
             levelController.OnLevelChange -= LevelUp;
             levelController.OnLevelChange -= ShowLevelUp;
             health.OnHit -= ShowCurrentHealth;
